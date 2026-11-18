@@ -1,3 +1,4 @@
+
 name: Build APK
 
 on:
@@ -8,9 +9,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
       - name: Install dependencies
@@ -23,8 +24,8 @@ jobs:
         with:
           command: buildozer android debug
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: build
-          path: |
-            bin/*.apk
+          path: bin/*.apk
+          
