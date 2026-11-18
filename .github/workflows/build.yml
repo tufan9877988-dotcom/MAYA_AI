@@ -1,4 +1,5 @@
 
+
 name: Build APK
 
 on:
@@ -24,18 +25,24 @@ jobs:
           sudo apt-get install -y \
             git zip unzip \
             openjdk-17-jdk \
-            autoconf automake libtool \
+            autoconf automake libtool libtool-bin \
             pkg-config zlib1g-dev \
             libncurses5-dev libncursesw5-dev \
             libtinfo6 cmake \
             libffi-dev libssl-dev \
-            libcairo2-dev
+            libcairo2-dev \
+            gettext autopoint
 
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
+
+      - name: Verify Libtool macros
+        run: |
+          libtoolize --version
+          aclocal --print-ac-dir
 
       - name: Install Python dependencies
         run: |
@@ -44,6 +51,8 @@ jobs:
           pip install -r requirements.txt
 
       - name: Build APK
+        env:
+          ACLOCAL_PATH: /usr/share/aclocal
         run: |
           buildozer android debug
 
